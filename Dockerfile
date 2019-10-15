@@ -1,10 +1,10 @@
-FROM registry.access.redhat.com/ubi7/ubi-minimal
-RUN microdnf install -y ruby rubygems \
- && rm -rf /var/cache/yum
+FROM alpine:3.10
+RUN apk add --no-cache ruby
 
 COPY . /opt/reggie
 WORKDIR /opt/reggie
-RUN gem install bundler -v 1.17.3 \
+RUN echo "gem: --no-rdoc --no-ri" > /etc/gemrc \
+ && gem install bundler \
  && bundle \
  && gem sources --clear-all
 
